@@ -1,0 +1,26 @@
+{
+  "name": "worker-communication",
+  "version": "1.0.0",
+  "description": "This module provide bilateral communication with callback between cluster worker and master, node.js child process is supported too.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scrwdrv/worker-communication.git"
+  },
+  "keywords": [
+    "worker",
+    "cluster",
+    "childprocess",
+    "ipc",
+    "callback"
+  ],
+  "author": "scrwdrv",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scrwdrv/worker-communication/issues"
+  },
+  "homepage": "https://github.com/scrwdrv/worker-communication#readme"
+}
