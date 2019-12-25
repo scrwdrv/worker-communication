@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/scrwdrv/worker-communication/issues"
   },
-  "homepage": "https://github.com/scrwdrv/worker-communication#readme"
+  "homepage": "https://github.com/scrwdrv/worker-communication#readme",
+  "dependencies": {
+    "fast-unique-id": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.0"
+  }
 }
