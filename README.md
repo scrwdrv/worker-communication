@@ -53,5 +53,5 @@ cpc.sendJob('requestJob', reqHeader, (jobHeader, job) => {
 
 ## Note
 
-> Master & worker is relative, a worker can also be a master to the process it forks.
-> So in this scenario, ```onMater()``` and ```onWorker()``` can be used at the same time to communicate its master and worker.
+ Master & worker is relative, a worker can also be a master to the process it forks.
+ So in this scenario, ```onMater()``` and ```onWorker()``` can be used at the same time to communicate its master and worker.
