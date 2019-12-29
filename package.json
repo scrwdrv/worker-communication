@@ -27,6 +27,6 @@
     "fast-unique-id": "^1.1.0"
   },
   "devDependencies": {
-    "@types/node": "^13.1.0"
+    "@types/node": "^13.1.1"
   }
 }
