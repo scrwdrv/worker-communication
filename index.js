@@ -10,6 +10,8 @@ class CPC {
                 return;
             switch (msg.d) {
                 case 'M':
+                    if (!this.response[msg.i])
+                        return;
                     this.response[msg.i](...msg.a);
                     delete this.response[msg.i];
                     break;
@@ -40,6 +42,8 @@ class CPC {
                         }));
                     break;
                 case 'W':
+                    if (!this.response[msg.i])
+                        return;
                     this.response[msg.i](...msg.a);
                     delete this.response[msg.i];
                     break;

@@ -1,6 +1,6 @@
 {
   "name": "worker-communication",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This module provide bilateral communication with callback between cluster worker and master, node.js child process is supported too.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "callback"
   ],
   "author": "scrwdrv",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/scrwdrv/worker-communication/issues"
   },
@@ -27,6 +27,6 @@
     "fast-unique-id": "^1.1.0"
   },
   "devDependencies": {
-    "@types/node": "^13.1.1"
+    "@types/node": "^13.1.7"
   }
 }
