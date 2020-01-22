@@ -17,12 +17,17 @@ class CPC {
                     break;
                 case 'W':
                     if (this.handler[msg.d][msg.m])
-                        this.handler[msg.d][msg.m](msg.r, (...args) => process.send({
-                            t: 'cpc',
-                            d: msg.d,
-                            i: msg.i,
-                            a: args
-                        }));
+                        this.handler[msg.d][msg.m](msg.r, (...args) => (function send() {
+                            process.send({
+                                t: 'cpc',
+                                d: msg.d,
+                                i: msg.i,
+                                a: args
+                            }, (err) => {
+                                if (err)
+                                    setTimeout(send, 500);
+                            });
+                        })());
                     break;
             }
         });
@@ -34,12 +39,17 @@ class CPC {
             switch (msg.d) {
                 case 'M':
                     if (this.handler[msg.d][msg.m])
-                        this.handler[msg.d][msg.m](msg.r, (...args) => worker.send({
-                            t: 'cpc',
-                            d: msg.d,
-                            i: msg.i,
-                            a: args
-                        }));
+                        this.handler[msg.d][msg.m](msg.r, (...args) => (function send() {
+                            worker.send({
+                                t: 'cpc',
+                                d: msg.d,
+                                i: msg.i,
+                                a: args
+                            }, null, (err) => {
+                                if (err)
+                                    setTimeout(send, 500);
+                            });
+                        })());
                     break;
                 case 'W':
                     if (!this.response[msg.i])
@@ -55,13 +65,17 @@ class CPC {
     sendJob(method, req, res, destination = process, to = 'M') {
         if (res) {
             const id = fast_unique_id_1.fast();
-            this.response[id] = res;
             destination.send({
                 t: 'cpc',
                 d: to,
                 m: method,
                 i: id,
                 r: req
+            }, (err) => {
+                if (err)
+                    setTimeout(() => this.sendJob(method, req, res, destination, to), 500);
+                else
+                    this.response[id] = res;
             });
         }
         else
@@ -70,6 +84,9 @@ class CPC {
                 d: to,
                 m: method,
                 r: req
+            }, (err) => {
+                if (err)
+                    setTimeout(() => this.sendJob(method, req, res, destination, to), 500);
             });
     }
     onWorker(method, handler) {

@@ -37,12 +37,16 @@ export default class CPC {
                 case 'W':
                     if (this.handler[msg.d][msg.m])
                         this.handler[msg.d][msg.m](msg.r, (...args: any) =>
-                            process.send({
-                                t: 'cpc',
-                                d: msg.d,
-                                i: msg.i,
-                                a: args
-                            })
+                            (function send() {
+                                process.send({
+                                    t: 'cpc',
+                                    d: msg.d,
+                                    i: msg.i,
+                                    a: args
+                                }, (err: Error) => {
+                                    if (err) setTimeout(send, 500);
+                                });
+                            })()
                         );
                     break;
             }
@@ -56,12 +60,16 @@ export default class CPC {
                 case 'M':
                     if (this.handler[msg.d][msg.m])
                         this.handler[msg.d][msg.m](msg.r, (...args: any) =>
-                            worker.send({
-                                t: 'cpc',
-                                d: msg.d,
-                                i: msg.i,
-                                a: args
-                            })
+                            (function send() {
+                                worker.send({
+                                    t: 'cpc',
+                                    d: msg.d,
+                                    i: msg.i,
+                                    a: args
+                                }, null, (err) => {
+                                    if (err) setTimeout(send, 500);
+                                });
+                            })()
                         );
                     break;
                 case 'W':
@@ -80,21 +88,25 @@ export default class CPC {
     sendJob(method: string, req: any, res?: Response, destination: Destination = process, to = 'M') {
         if (res) {
             const id = uuid();
-            this.response[id] = res;
             destination.send({
                 t: 'cpc',
                 d: to,
                 m: method,
                 i: id,
                 r: req
+            }, (err: Error) => {
+                if (err) setTimeout(() => this.sendJob(method, req, res, destination, to), 500);
+                else this.response[id] = res;
             });
-        } else
-            destination.send({
-                t: 'cpc',
-                d: to,
-                m: method,
-                r: req
-            });
+
+        } else destination.send({
+            t: 'cpc',
+            d: to,
+            m: method,
+            r: req
+        }, (err: Error) => {
+            if (err) setTimeout(() => this.sendJob(method, req, res, destination, to), 500);
+        });
     }
 
     onWorker(method: string, handler: Handler) {

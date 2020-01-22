@@ -1,6 +1,6 @@
 {
   "name": "worker-communication",
-  "version": "1.0.4",
+  "version": "1.0.8",
   "description": "This module provide bilateral communication with callback between cluster worker and master, node.js child process is supported too.",
   "main": "index.js",
   "scripts": {
